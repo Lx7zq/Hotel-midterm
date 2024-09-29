@@ -1,18 +1,20 @@
 const { Sequelize } = require("sequelize");
 const dbConfig = require("../config/db.config");
 
+// Create a new Sequelize instance with database configuration
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
     host: dbConfig.HOST,
     dialect: dbConfig.dialect,
     dialectOptions: {
         ssl: {
             require: true,
-            rejectUnauthorize: false,
+            rejectUnauthorized: false, // Corrected the typo here
         },
     },
 });
 
-testConnection = async () => {
+// Test the database connection
+const testConnection = async () => {
     try {
         await sequelize.authenticate();
         console.log("Connection has been established successfully.");
@@ -22,4 +24,5 @@ testConnection = async () => {
 };
 
 testConnection();
+
 module.exports = sequelize;

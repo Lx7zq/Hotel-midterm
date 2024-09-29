@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require("./db");
-const Room = require('./Room'); // เชื่อมต่อกับโมเดล Room
+const Room = require('./Room.model'); // เชื่อมต่อกับโมเดล Room
 
-const Reservation = sequelize.define('Reservation', {
+const Booking = sequelize.define('Booking', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -27,7 +27,7 @@ const Reservation = sequelize.define('Reservation', {
 });
 
 // ความสัมพันธ์: การจองต้องเกี่ยวกับห้องพัก
-Reservation.belongsTo(Room, { foreignKey: 'roomId' });
-Room.hasMany(Reservation, { foreignKey: 'roomId' });
+Booking.belongsTo(Room, { foreignKey: 'roomId' });
+Room.hasMany(Booking, { foreignKey: 'roomId' });
 
-module.exports = Reservation;
+module.exports = Booking;

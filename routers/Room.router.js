@@ -1,20 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const roomController = require('../controllers/Room.Controllers'); // ตรวจสอบเส้นทางให้ถูกต้อง
-
+const roomController = require('../controllers/Room.Controller'); // ตรวจสอบเส้นทางให้ถูกต้อง
+const { authJwt } = require("../middlewares")
 // สร้างห้องพักใหม่
-router.post('/rooms', roomController.createRoom);
+router.post('/', [authJwt.verifyToken, authJwt.isModOrAdmin], roomController.createRoom);
 
 // ดึงข้อมูลห้องพักทั้งหมด
-router.get('/rooms', roomController.getAllRooms);
+router.get('/', roomController.getAllRooms);
 
 // ดึงข้อมูลห้องพักโดยใช้ ID
-router.get('/rooms/:id', roomController.getRoomById);
+router.get('/:id', [authJwt.verifyToken], roomController.getRoomById);
 
 // ปรับปรุงข้อมูลห้องพัก
-router.put('/rooms/:id', roomController.updateRoom);
+router.put('/:id', [authJwt.verifyToken, authJwt.isModOrAdmin], roomController.updateRoom);
 
 // ลบห้องพัก
-router.delete('/rooms/:id', roomController.deleteRoom);
+router.delete('/:id', [authJwt.verifyToken, authJwt.isAdmin], roomController.deleteRoom);
 
 module.exports = router;
